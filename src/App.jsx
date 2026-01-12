@@ -280,17 +280,18 @@ function HomePage({ navigate, copy, copied, CA }) {
             Live Chart 📈
           </h2>
 
-          {/* FIXED: Improved container height and mobile padding */}
+          {/* Mobile: 500px height | Desktop: 16:9 Aspect Ratio */}
           <div className="w-full h-[500px] md:h-auto md:aspect-video bg-zinc-900 rounded-2xl md:rounded-3xl overflow-hidden border border-yellow-500/20 mb-8 shadow-2xl">
             <iframe
               className="w-full h-full"
               src={`https://dexscreener.com/solana/${CA}?embed=1&theme=dark&trades=0&info=0`}
               title="DEX Screener Chart"
+              loading="lazy"
             ></iframe>
           </div>
 
           <a
-            href="https://dexscreener.com/solana/AumaQ5bXzpd5xjsR6snS34FbRGVNNtCF2z2QgVEmpump"
+            href={`https://dexscreener.com/solana/${CA}`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-yellow-500 text-black px-12 py-4 rounded-full font-black uppercase text-sm flex items-center gap-2 hover:scale-105 transition-all active:scale-95 shadow-lg"
