@@ -12,8 +12,10 @@ import {
   X,
   Instagram,
   Facebook,
+  Calendar,
+  Zap,
 } from "lucide-react";
-
+import MemeGenerator from "./MemeGenerator"; // Add this line here
 // Custom TikTok Icon
 const TikTokIcon = ({ size = 24 }) => (
   <svg
@@ -50,7 +52,6 @@ export default function App() {
     window.scrollTo(0, 0);
   };
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenu) {
       document.body.style.overflow = "hidden";
@@ -78,7 +79,6 @@ export default function App() {
     <div className="bg-black text-white min-h-screen font-sans selection:bg-yellow-500">
       {/* FIXED NAVBAR */}
       <nav className="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-xl border-b border-yellow-500/10 px-6 py-4 flex justify-between items-center">
-        {/* LEFT: Logo */}
         <div className="flex-1 flex justify-start">
           <img
             src="/logo.png"
@@ -88,7 +88,6 @@ export default function App() {
           />
         </div>
 
-        {/* CENTER: Desktop Navigation */}
         <div className="hidden md:flex gap-10 font-black uppercase text-sm tracking-[0.2em]">
           {["home", "story", "roadmap", "generator"].map((page) => (
             <button
@@ -105,17 +104,13 @@ export default function App() {
           ))}
         </div>
 
-        {/* RIGHT: Mobile Toggle & Desktop Spacer */}
         <div className="flex-1 flex justify-end">
-          {/* Mobile Toggle Button */}
           <button
             className="md:hidden text-yellow-500 p-2 hover:bg-zinc-900 rounded-lg transition-colors"
             onClick={() => setMobileMenu(true)}
           >
             <Menu size={32} />
           </button>
-
-          {/* Hidden spacer on desktop to maintain perfect centering */}
           <div className="hidden md:block w-12 h-12"></div>
         </div>
       </nav>
@@ -129,7 +124,6 @@ export default function App() {
           >
             <X size={48} />
           </button>
-
           {["home", "story", "roadmap", "generator"].map((page) => (
             <button
               key={page}
@@ -231,7 +225,7 @@ function HomePage({ navigate, copy, copied, CA }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-12 max-w-3xl w-full">
           {[
             { icon: <Heart size={18} />, label: "$2,500+ Donated" },
-            { icon: <Users size={18} />, label: "Community CTO" },
+            { icon: <Users size={18} />, label: "110+ Days Active" },
             { icon: <Flame size={18} />, label: "5M $W Burnt" },
           ].map((item, i) => (
             <div
@@ -265,10 +259,10 @@ function HomePage({ navigate, copy, copied, CA }) {
             Live Chart
           </button>
           <button
-            onClick={() => navigate("story")}
+            onClick={() => navigate("roadmap")}
             className="bg-zinc-800 text-white px-10 py-4 rounded-full font-black uppercase text-sm hover:bg-zinc-700 hover:scale-105 transition-all active:scale-95"
           >
-            Our Story
+            Roadmap
           </button>
         </div>
       </section>
@@ -279,8 +273,6 @@ function HomePage({ navigate, copy, copied, CA }) {
           <h2 className="text-4xl font-black italic text-yellow-500 mb-8 uppercase text-center">
             Live Chart 📈
           </h2>
-
-          {/* Mobile: 500px height | Desktop: 16:9 Aspect Ratio */}
           <div className="w-full h-[500px] md:h-auto md:aspect-video bg-zinc-900 rounded-2xl md:rounded-3xl overflow-hidden border border-yellow-500/20 mb-8 shadow-2xl">
             <iframe
               className="w-full h-full"
@@ -289,7 +281,6 @@ function HomePage({ navigate, copy, copied, CA }) {
               loading="lazy"
             ></iframe>
           </div>
-
           <a
             href={`https://dexscreener.com/solana/${CA}`}
             target="_blank"
@@ -301,139 +292,102 @@ function HomePage({ navigate, copy, copied, CA }) {
         </div>
       </section>
 
-      {/* IMPACT SECTION */}
+      {/* MILESTONES */}
       <section className="py-10 bg-zinc-950 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-5xl font-black italic text-yellow-500 mb-12 uppercase">
-            Impact So Far 💛
+            Key Milestones 🏆
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {[
-              { val: "$2,500+", sub: "Real World Causes" },
-              { val: "$500", sub: "Small Streamer Subs" },
-              { val: "$500", sub: "Community Giveaways" },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-yellow-500 shadow-xl hover:-translate-y-2 transition-transform"
-              >
-                <div className="text-4xl font-black mb-2">{card.val}</div>
-                <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
-                  {card.sub}
-                </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-yellow-500 shadow-xl">
+              <div className="text-4xl font-black mb-2">110+</div>
+              <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold font-mono italic">
+                Consecutive Days Active
               </div>
-            ))}
-          </div>
-
-          <div className="bg-zinc-900/30 p-8 rounded-3xl border border-white/5 text-left">
-            <h4 className="font-bold uppercase mb-6 text-yellow-500 tracking-widest">
-              Proof of Impact:
-            </h4>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 text-xs">
-              {[
-                { label: "Receipt 1", url: "https://t.co/xq7baS1BS8" },
-                { label: "Receipt 2", url: "https://t.co/bF5wSoZPYN" },
-                { label: "Receipt 3", url: "https://t.co/p9coPp7t5v" },
-                { label: "Receipt 4", url: "#" },
-                { label: "Receipt 5", url: "#" },
-                { label: "Receipt 6", url: "#" },
-              ].map((receipt, index) => (
-                <a
-                  key={index}
-                  href={receipt.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-400 hover:text-yellow-500 flex items-center gap-2 transition-colors border-l border-zinc-800 pl-3 hover:border-yellow-500"
-                >
-                  {receipt.label} <ExternalLink size={12} />
-                </a>
-              ))}
+            </div>
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-green-500 shadow-xl">
+              <div className="text-4xl font-black mb-2">$2,500+</div>
+              <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
+                Donated to Real Causes
+              </div>
+            </div>
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-blue-500 shadow-xl">
+              <div className="text-4xl font-black mb-2">6/6</div>
+              <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
+                Social Platforms Live
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CA & BUY SECTION */}
-      <section className="py-10 px-6 bg-zinc-950">
+      {/* HOW TO BUY SECTION */}
+      <section className="py-10 max-w-5xl mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-black italic uppercase text-center mb-16 tracking-tighter text-yellow-500">
+          How to Buy $W
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {[
+            {
+              step: "1",
+              title: "Setup Wallet",
+              desc: "Download Phantom or Solflare and load it with some SOL.",
+            },
+            {
+              step: "2",
+              title: "Visit Dex",
+              desc: "Go to Dexscreener or Jupiter and paste our Contract Address.",
+            },
+            {
+              step: "3",
+              title: "Swap & Win",
+              desc: "Swap your SOL for $W and join the movement where everybody wins.",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-zinc-900/40 border border-yellow-500/10 p-8 rounded-[40px] relative group hover:border-yellow-500/30 transition-all"
+            >
+              <div className="w-10 h-10 bg-yellow-500 text-black rounded-full flex items-center justify-center font-black mb-6 text-sm">
+                {item.step}
+              </div>
+              <h3 className="text-xl font-black mb-4 uppercase italic tracking-tight">
+                {item.title}
+              </h3>
+              <p className="text-zinc-500 text-sm font-bold tracking-tight leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CA SECTION */}
+      <section className="py-10 px-6 bg-black">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-black italic text-yellow-500 mb-8 uppercase">
             Contract Address
           </h2>
           <div className="relative inline-block w-full">
             <div
-              className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg font-black text-xs uppercase tracking-widest transition-all duration-300 pointer-events-none ${
-                copied ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-yellow-500 text-black px-4 py-2 rounded-lg font-black text-xs uppercase transition-all ${
+                copied ? "opacity-100" : "opacity-0"
               }`}
             >
               Copied!
             </div>
             <div
               onClick={copy}
-              className="flex items-center gap-4 bg-zinc-900 p-2 pl-6 rounded-full border border-yellow-500/30 mb-4 cursor-pointer hover:border-yellow-500 transition-all group"
+              className="flex items-center gap-4 bg-zinc-900 p-2 pl-6 rounded-full border border-yellow-500/30 cursor-pointer hover:border-yellow-500 transition-all group"
             >
               <code className="text-xs md:text-sm text-yellow-500 truncate w-full font-mono">
                 {CA}
               </code>
-              <button className="bg-zinc-800 text-white p-4 rounded-full flex-shrink-0 flex items-center justify-center border border-white/10 group-hover:bg-yellow-500 group-hover:text-black transition-colors shadow-lg">
-                {copied ? (
-                  <Check size={20} className="stroke-[3px]" />
-                ) : (
-                  <Copy size={20} className="stroke-[3px]" />
-                )}
+              <button className="bg-zinc-800 text-white p-4 rounded-full flex-shrink-0 group-hover:bg-yellow-500 group-hover:text-black transition-colors">
+                {copied ? <Check size={20} /> : <Copy size={20} />}
               </button>
             </div>
           </div>
-
-          <p className="text-zinc-600 text-[10px] uppercase font-bold mb-16 italic tracking-widest">
-            Always verify the contract address before buying.
-          </p>
-
-          <h2 className="text-4xl font-black italic text-yellow-500 mb-8 uppercase">
-            How to Buy $W
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6 text-left mb-12">
-            {[
-              {
-                s: "1",
-                t: "Setup Wallet",
-                d: "Download Phantom or Solflare and load with SOL.",
-              },
-              {
-                s: "2",
-                t: "Visit Pump.fun",
-                d: "Go to our project page link below.",
-              },
-              {
-                s: "3",
-                t: "Swap & Win",
-                d: "Swap SOL for $W and start giving back.",
-              },
-            ].map((step) => (
-              <div
-                key={step.s}
-                className="bg-zinc-900 p-8 rounded-3xl border border-white/5"
-              >
-                <div className="w-8 h-8 bg-yellow-500 text-black rounded-full flex items-center justify-center font-black mb-4">
-                  {step.s}
-                </div>
-                <div className="font-black uppercase text-sm mb-2">
-                  {step.t}
-                </div>
-                <div className="text-xs text-zinc-500 leading-relaxed">
-                  {step.d}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <a
-            href="https://t.co/882TZEQRfU"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-white text-black px-16 py-6 rounded-full font-black uppercase text-lg shadow-[0_0_50px_rgba(255,255,255,0.1)] hover:bg-yellow-500 hover:scale-110 hover:shadow-[0_0_30px_rgba(234,179,8,0.5)] transition-all duration-300 active:scale-95"
-          >
-            Buy on Pump.fun
-          </a>
         </div>
       </section>
     </div>
@@ -446,23 +400,18 @@ function StoryPage() {
       <h1 className="text-6xl md:text-8xl font-black italic text-yellow-500 uppercase mb-12 leading-none">
         Our Story
       </h1>
-
       <div className="space-y-20">
-        {/* THE ORIGIN */}
         <div className="border-l-4 border-yellow-500 pl-8">
           <h2 className="text-3xl font-black uppercase mb-4 text-white">
             The Phoenix Moment
           </h2>
           <p className="text-zinc-400 text-lg leading-relaxed">
             $W didn't start in a boardroom—it started in the trenches. After the
-            original developer abandoned the project, the community faced a
-            choice: let it die, or take the wheel. We chose to drive. Today, $W
-            is a 100% Community-Taken-Over (CTO) project, meaning the holders
-            are the team, and the mission is ours to define.
+            original developer abandoned the project, the community chose to
+            take the wheel. Today, $W is a 100% Community-Taken-Over (CTO)
+            project.
           </p>
         </div>
-
-        {/* MISSION GRID */}
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
             <Heart className="text-yellow-500 mb-4" size={32} />
@@ -470,9 +419,8 @@ function StoryPage() {
               Transparency First
             </h2>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              In a space full of empty promises, $W stands for radical honesty.
-              Every donation, every burn, and every major decision is logged
-              on-chain and verified by the community.
+              On-chain and community verified. Every major decision is
+              transparent.
             </p>
           </div>
           <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
@@ -481,60 +429,10 @@ function StoryPage() {
               Real Impact
             </h2>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              We aren't just another meme. We leverage the power of crypto to
-              fund real-world good—from supporting small creators to animal
-              welfare. When $W grows, the world wins.
+              We fund real-world good—from supporting small creators to animal
+              welfare.
             </p>
           </div>
-        </div>
-
-        {/* THE "LOCKED" SECTION */}
-        <div className="relative overflow-hidden bg-zinc-900 p-12 rounded-[3rem] border border-yellow-500/20">
-          <div className="relative z-10">
-            <h2 className="text-4xl font-black italic text-yellow-500 uppercase mb-6">
-              Security & Trust
-            </h2>
-            <p className="text-zinc-300 text-lg leading-relaxed mb-8">
-              We believe in the long game. That’s why we’ve taken aggressive
-              steps to secure the future of $W.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-black/50 p-6 rounded-2xl border border-white/5">
-                <div className="text-yellow-500 text-3xl font-black">
-                  67.5M $W
-                </div>
-                <div className="text-xs font-bold uppercase text-zinc-500 tracking-widest mt-1">
-                  Locked Until 2030 🔒
-                </div>
-              </div>
-              <div className="bg-black/50 p-6 rounded-2xl border border-white/5">
-                <div className="text-yellow-500 text-3xl font-black">
-                  5 Million
-                </div>
-                <div className="text-xs font-bold uppercase text-zinc-500 tracking-widest mt-1">
-                  Burned Forever 🔥
-                </div>
-              </div>
-            </div>
-          </div>
-          <Flame
-            className="absolute -right-10 -bottom-10 text-yellow-500/5"
-            size={300}
-          />
-        </div>
-
-        {/* CALL TO ACTION */}
-        <div className="text-center py-10">
-          <h2 className="text-3xl font-black uppercase mb-6 text-white italic">
-            Want to help us write the next chapter?
-          </h2>
-          <a
-            href="https://t.me/+RgPyZn-u1_BmZDA6"
-            target="_blank"
-            className="inline-block bg-yellow-500 text-black px-12 py-5 rounded-full font-black uppercase text-sm hover:scale-110 hover:shadow-[0_0_30px_rgba(234,179,8,0.4)] transition-all"
-          >
-            Join the Movement
-          </a>
         </div>
       </div>
     </div>
@@ -542,118 +440,136 @@ function StoryPage() {
 }
 
 function RoadmapPage() {
-  const phases = [
-    {
-      p: "Phase 1",
-      g: "Foundation",
-      d: "CTO structure and transparent operations.",
-    },
-    {
-      p: "Phase 2",
-      g: "Visibility",
-      d: "Consistent content and improved social presence.",
-    },
-    { p: "Phase 3", g: "Strength", d: "Turning holders into active builders." },
-    {
-      p: "Phase 4",
-      g: "Expansion",
-      d: "Organic influencer and community partnerships.",
-    },
-    {
-      p: "Phase 5",
-      g: "Sustainability",
-      d: "Major IRL Giving Back initiatives.",
-    },
-  ];
-
   return (
-    <div className="max-w-5xl mx-auto px-6 py-20 text-center">
-      <h1 className="text-6xl font-black italic text-yellow-500 uppercase mb-20 tracking-tighter">
+    <div className="max-w-4xl mx-auto px-6 py-20">
+      <h1 className="text-6xl font-black italic text-yellow-500 uppercase mb-16 text-center tracking-tighter">
         The Roadmap
       </h1>
-      <div className="relative space-y-12">
-        <div className="absolute left-8 top-0 bottom-0 w-1 bg-zinc-800 hidden md:block"></div>
-        {phases.map((phase, i) => (
-          <div key={i} className="relative md:pl-24 group text-left">
-            <div className="absolute left-6 top-2 w-5 h-5 bg-yellow-500 rounded-full hidden md:block group-hover:scale-150 transition-transform"></div>
-            <div className="bg-zinc-900/50 p-10 rounded-[2rem] border border-white/5 hover:border-yellow-500/30 transition-all">
-              <span className="text-yellow-500 font-black uppercase text-xs tracking-widest">
-                {phase.p}
+
+      <div className="space-y-12">
+        {/* Phase 1 */}
+        <div className="relative pl-8 border-l-2 border-green-500">
+          <div className="absolute -left-[11px] top-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
+            <Check size={12} className="text-black font-bold" />
+          </div>
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-green-500/20">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <h3 className="text-2xl font-black text-white uppercase italic">
+                Phase 1 — Foundation ✅
+              </h3>
+              <span className="text-[10px] font-black px-2 py-1 bg-green-500 text-black rounded italic uppercase">
+                Completed · CTO: 19.09.2025
               </span>
-              <h2 className="text-2xl font-black uppercase mt-2 mb-4">
-                {phase.g}
-              </h2>
-              <p className="text-zinc-500 text-sm leading-relaxed">{phase.d}</p>
+            </div>
+            <ul className="text-zinc-400 space-y-2 text-sm">
+              <li>• Community takeover finalized</li>
+              <li>• Transparent operations established</li>
+              <li>• Core wallets secured and publicly verifiable</li>
+              <li>• Initial X and Telegram communities formed</li>
+              <li>• Commitment to long-term stewardship set from day one</li>
+            </ul>
+            <p className="mt-4 text-xs italic text-yellow-500/70">
+              "This phase began the moment the community took responsibility for
+              $W."
+            </p>
+          </div>
+        </div>
+
+        {/* Phase 2 */}
+        <div className="relative pl-8 border-l-2 border-yellow-500">
+          <div className="absolute -left-[11px] top-0 w-5 h-5 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-yellow-500/20">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <h3 className="text-2xl font-black text-white uppercase italic">
+                Phase 2 — Consistency
+              </h3>
+              <span className="text-[10px] font-black px-2 py-1 bg-yellow-500 text-black rounded italic uppercase">
+                Ongoing since 19.09.2025
+              </span>
+            </div>
+            <ul className="text-zinc-400 space-y-2 text-sm">
+              <li>• Daily presence across X and Telegram</li>
+              <li>• Clear narrative and tone established</li>
+              <li>• Organic community growth without paid hype</li>
+              <li>• First real-world donations executed</li>
+              <li>• Early supporters organically becoming contributors</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Phase 3 */}
+        <div className="relative pl-8 border-l-2 border-yellow-500/30">
+          <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-700 rounded-full" />
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <h3 className="text-2xl font-black text-white uppercase italic">
+                Phase 3 — Visibility
+              </h3>
+              <span className="text-[10px] font-black px-2 py-1 bg-zinc-800 text-zinc-400 rounded italic uppercase">
+                Active
+              </span>
+            </div>
+            <ul className="text-zinc-400 space-y-2 text-sm">
+              <li>• Refined branding and visual identity</li>
+              <li>• Consistent long-form and short-form content</li>
+              <li>• Community Spaces and open discussions</li>
+              <li>• Increased organic reach and repeat engagement</li>
+              <li>• Growing awareness without urgency or pressure</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Phase 4 */}
+        <div className="relative pl-8 border-l-2 border-yellow-500/10">
+          <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
+          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5">
+            <h3 className="text-2xl font-black text-white uppercase italic mb-4 opacity-70">
+              Phase 4 — Participation
+            </h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">
+              Encouraging holders to become active contributors. Community-led
+              initiatives and feedback loops. Broader collaboration with aligned
+              creators.
+            </p>
+          </div>
+        </div>
+
+        {/* Phase 5 */}
+        <div className="relative pl-8 border-l-2 border-yellow-500/10">
+          <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
+          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5">
+            <h3 className="text-2xl font-black text-white uppercase italic mb-4 opacity-70">
+              Phase 5 — Sustainability
+            </h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">
+              Sustainability is measured in years, not weeks. Continued
+              real-life giving initiatives. Support for small creators and
+              communities. Long-term supply discipline.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ADDITIONAL MILESTONES GRID */}
+      <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: "TikTok", date: "27.09.2025" },
+          { label: "Instagram", date: "08.12.2025" },
+          { label: "Facebook", date: "08.12.2025" },
+          { label: "Donations", date: "Ongoing" },
+        ].map((m, i) => (
+          <div
+            key={i}
+            className="bg-zinc-900 p-4 rounded-xl border border-white/5 text-center"
+          >
+            <div className="text-yellow-500 font-black text-xs uppercase mb-1">
+              {m.label}
+            </div>
+            <div className="text-[10px] text-zinc-500 font-bold uppercase">
+              {m.date}
             </div>
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
-
-function MemeGenerator() {
-  const canvasRef = useRef(null);
-  const [userImg, setUserImg] = useState(null);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      const frame = new Image();
-      frame.src = "/frame.png";
-      frame.onload = () => {
-        ctx.clearRect(0, 0, 500, 500);
-        if (userImg) {
-          const img = new Image();
-          img.src = userImg;
-          img.onload = () => {
-            ctx.drawImage(img, 0, 0, 500, 500);
-            ctx.drawImage(frame, 0, 0, 500, 500);
-          };
-        } else {
-          ctx.fillStyle = "#111";
-          ctx.fillRect(0, 0, 500, 500);
-          ctx.drawImage(frame, 0, 0, 500, 500);
-        }
-      };
-    }
-  }, [userImg]);
-
-  return (
-    <div className="py-20 flex flex-col items-center px-6">
-      <h1 className="text-5xl font-black italic text-yellow-500 uppercase mb-12">
-        Meme Factory
-      </h1>
-      <canvas
-        ref={canvasRef}
-        width={500}
-        height={500}
-        className="w-full max-w-md bg-zinc-900 rounded-3xl border-4 border-yellow-500/20"
-      />
-      <div className="mt-12 flex gap-4">
-        <input
-          type="file"
-          id="up"
-          hidden
-          onChange={(e) => setUserImg(URL.createObjectURL(e.target.files[0]))}
-        />
-        <label
-          htmlFor="up"
-          className="bg-white text-black px-10 py-4 rounded-full font-black uppercase cursor-pointer hover:bg-yellow-500 transition-colors"
-        >
-          Upload
-        </label>
-        <button
-          onClick={() => {
-            const link = document.createElement("a");
-            link.download = "W-Meme.png";
-            link.href = canvasRef.current.toDataURL();
-            link.click();
-          }}
-          className="bg-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase hover:bg-yellow-400 transition-colors"
-        >
-          Download
-        </button>
       </div>
     </div>
   );
