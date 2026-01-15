@@ -35,6 +35,7 @@ const TikTokIcon = ({ size = 24 }) => (
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
+  const [isExitingGate, setIsExitingGate] = useState(false); // New state for entrance transition
   const [activePage, setActivePage] = useState("home");
   const [copied, setCopied] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -45,6 +46,14 @@ export default function App() {
     navigator.clipboard.writeText(CA);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleEntrance = () => {
+    setIsExitingGate(true);
+    // Wait for the fade-out animation to finish before removing the gate
+    setTimeout(() => {
+      setHasEntered(true);
+    }, 600);
   };
 
   const navigate = (page) => {
@@ -65,11 +74,19 @@ export default function App() {
   if (!hasEntered) {
     return (
       <div
-        className="fixed inset-0 z-[100] w-full h-full flex items-center justify-center bg-cover bg-center bg-no-repeat cursor-pointer"
+        className={`fixed inset-0 z-[100] w-full h-full flex items-center justify-center bg-cover bg-center bg-no-repeat cursor-pointer transition-all duration-700 ease-in-out ${
+          isExitingGate
+            ? "opacity-0 scale-110 pointer-events-none"
+            : "opacity-100 scale-100"
+        }`}
         style={{ backgroundImage: "url('/gate.jpg')" }}
-        onClick={() => setHasEntered(true)}
+        onClick={handleEntrance}
       >
-        <div className="absolute bottom-20 animate-pulse text-yellow-500 font-black tracking-[0.5em] uppercase text-xs bg-black/60 px-8 py-3 rounded-full border border-yellow-500/20 backdrop-blur-sm">
+        <div
+          className={`absolute bottom-20 animate-pulse text-yellow-500 font-black tracking-[0.5em] uppercase text-xs bg-black/60 px-8 py-3 rounded-full border border-yellow-500/20 backdrop-blur-sm transition-opacity duration-300 ${
+            isExitingGate ? "opacity-0" : "opacity-100"
+          }`}
+        >
           Click Anywhere to Enter
         </div>
       </div>
@@ -77,7 +94,7 @@ export default function App() {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-yellow-500">
+    <div className="bg-black text-white min-h-screen font-sans selection:bg-yellow-500 animate-in fade-in zoom-in-95 duration-1000 ease-out">
       {/* GLOBAL TRANSITION STYLES */}
       <style>{`
         @keyframes pageFadeIn {
@@ -422,7 +439,6 @@ function StoryPage() {
       </h1>
 
       <div className="space-y-20">
-        {/* The Origin */}
         <div className="border-l-4 border-yellow-500 pl-8 transition-all hover:border-white duration-500">
           <h2 className="text-3xl font-black uppercase mb-4 text-white italic">
             The Phoenix Moment
@@ -440,7 +456,6 @@ function StoryPage() {
           </p>
         </div>
 
-        {/* The Mission Grid */}
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5 hover-lift">
             <Heart className="text-yellow-500 mb-4" size={32} />
@@ -467,7 +482,6 @@ function StoryPage() {
           </div>
         </div>
 
-        {/* Core Values */}
         <div className="bg-yellow-500 p-12 rounded-[3rem] text-black">
           <h2 className="text-4xl font-black uppercase italic mb-6">Our DNA</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -518,7 +532,6 @@ function RoadmapPage() {
       </h1>
 
       <div className="space-y-12">
-        {/* Phase 1 */}
         <div className="relative pl-8 border-l-2 border-green-500">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
             <Check size={12} className="text-black font-bold" />
@@ -546,7 +559,6 @@ function RoadmapPage() {
           </div>
         </div>
 
-        {/* Phase 2 */}
         <div className="relative pl-8 border-l-2 border-yellow-500">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
           <div className="bg-zinc-900/50 p-6 rounded-2xl border border-yellow-500/20 hover-lift">
@@ -568,7 +580,6 @@ function RoadmapPage() {
           </div>
         </div>
 
-        {/* Phase 3 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/30">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-700 rounded-full" />
           <div className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5 hover-lift">
@@ -590,7 +601,6 @@ function RoadmapPage() {
           </div>
         </div>
 
-        {/* Phase 4 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/10">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
           <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5 hover-lift">
@@ -605,7 +615,6 @@ function RoadmapPage() {
           </div>
         </div>
 
-        {/* Phase 5 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/10">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
           <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5 hover-lift">
@@ -621,7 +630,6 @@ function RoadmapPage() {
         </div>
       </div>
 
-      {/* ADDITIONAL MILESTONES GRID */}
       <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: "TikTok", date: "27.09.2025" },
