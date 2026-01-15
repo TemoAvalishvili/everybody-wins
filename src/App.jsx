@@ -15,7 +15,8 @@ import {
   Calendar,
   Zap,
 } from "lucide-react";
-import MemeGenerator from "./MemeGenerator"; // Add this line here
+import MemeGenerator from "./MemeGenerator";
+
 // Custom TikTok Icon
 const TikTokIcon = ({ size = 24 }) => (
   <svg
@@ -77,6 +78,23 @@ export default function App() {
 
   return (
     <div className="bg-black text-white min-h-screen font-sans selection:bg-yellow-500">
+      {/* GLOBAL TRANSITION STYLES */}
+      <style>{`
+        @keyframes pageFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-page {
+          animation: pageFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .hover-lift {
+          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
+        }
+        .hover-lift:hover {
+          transform: translateY(-8px);
+        }
+      `}</style>
+
       {/* FIXED NAVBAR */}
       <nav className="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-xl border-b border-yellow-500/10 px-6 py-4 flex justify-between items-center">
         <div className="flex-1 flex justify-start">
@@ -138,19 +156,21 @@ export default function App() {
         </div>
       )}
 
-      {/* PAGE CONTENT */}
+      {/* PAGE CONTENT WITH TRANSITION WRAPPER */}
       <main className="pt-24">
-        {activePage === "home" && (
-          <HomePage
-            navigate={navigate}
-            copy={copyToClipboard}
-            copied={copied}
-            CA={CA}
-          />
-        )}
-        {activePage === "story" && <StoryPage />}
-        {activePage === "roadmap" && <RoadmapPage />}
-        {activePage === "generator" && <MemeGenerator />}
+        <div key={activePage} className="animate-page">
+          {activePage === "home" && (
+            <HomePage
+              navigate={navigate}
+              copy={copyToClipboard}
+              copied={copied}
+              CA={CA}
+            />
+          )}
+          {activePage === "story" && <StoryPage />}
+          {activePage === "roadmap" && <RoadmapPage />}
+          {activePage === "generator" && <MemeGenerator />}
+        </div>
       </main>
 
       {/* FOOTER */}
@@ -222,7 +242,7 @@ function HomePage({ navigate, copy, copied, CA }) {
           A community-taken-over memecoin built on one mission: Giving Back.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-12 max-w-3xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-12 max-w-3xl w-full px-4">
           {[
             { icon: <Heart size={18} />, label: "$2,500+ Donated" },
             { icon: <Users size={18} />, label: "110+ Days Active" },
@@ -230,7 +250,7 @@ function HomePage({ navigate, copy, copied, CA }) {
           ].map((item, i) => (
             <div
               key={i}
-              className="bg-zinc-900/40 p-5 rounded-2xl border border-yellow-500/10 flex items-center justify-center gap-3"
+              className="bg-zinc-900/40 p-5 rounded-2xl border border-yellow-500/10 flex items-center justify-center gap-3 hover-lift"
             >
               <span className="text-yellow-500">{item.icon}</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-tight">
@@ -299,19 +319,19 @@ function HomePage({ navigate, copy, copied, CA }) {
             Key Milestones 🏆
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-yellow-500 shadow-xl">
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-yellow-500 shadow-xl hover-lift">
               <div className="text-4xl font-black mb-2">110+</div>
               <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold font-mono italic">
                 Consecutive Days Active
               </div>
             </div>
-            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-green-500 shadow-xl">
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-green-500 shadow-xl hover-lift">
               <div className="text-4xl font-black mb-2">$2,500+</div>
               <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
                 Donated to Real Causes
               </div>
             </div>
-            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-blue-500 shadow-xl">
+            <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-blue-500 shadow-xl hover-lift">
               <div className="text-4xl font-black mb-2">6/6</div>
               <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
                 Social Platforms Live
@@ -346,7 +366,7 @@ function HomePage({ navigate, copy, copied, CA }) {
           ].map((item, i) => (
             <div
               key={i}
-              className="bg-zinc-900/40 border border-yellow-500/10 p-8 rounded-[40px] relative group hover:border-yellow-500/30 transition-all"
+              className="bg-zinc-900/40 border border-yellow-500/10 p-8 rounded-[40px] relative group hover:border-yellow-500/30 transition-all hover-lift"
             >
               <div className="w-10 h-10 bg-yellow-500 text-black rounded-full flex items-center justify-center font-black mb-6 text-sm">
                 {item.step}
@@ -403,7 +423,7 @@ function StoryPage() {
 
       <div className="space-y-20">
         {/* The Origin */}
-        <div className="border-l-4 border-yellow-500 pl-8">
+        <div className="border-l-4 border-yellow-500 pl-8 transition-all hover:border-white duration-500">
           <h2 className="text-3xl font-black uppercase mb-4 text-white italic">
             The Phoenix Moment
           </h2>
@@ -422,7 +442,7 @@ function StoryPage() {
 
         {/* The Mission Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
+          <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5 hover-lift">
             <Heart className="text-yellow-500 mb-4" size={32} />
             <h2 className="text-2xl font-black uppercase mb-4 text-white">
               The Mission: Giving Back
@@ -434,7 +454,7 @@ function StoryPage() {
               change.
             </p>
           </div>
-          <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
+          <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5 hover-lift">
             <Users className="text-yellow-500 mb-4" size={32} />
             <h2 className="text-2xl font-black uppercase mb-4 text-white">
               100% Organic
@@ -503,7 +523,7 @@ function RoadmapPage() {
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)]">
             <Check size={12} className="text-black font-bold" />
           </div>
-          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-green-500/20">
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-green-500/20 hover-lift">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-2xl font-black text-white uppercase italic">
                 Phase 1 — Foundation ✅
@@ -529,7 +549,7 @@ function RoadmapPage() {
         {/* Phase 2 */}
         <div className="relative pl-8 border-l-2 border-yellow-500">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-yellow-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
-          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-yellow-500/20">
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-yellow-500/20 hover-lift">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-2xl font-black text-white uppercase italic">
                 Phase 2 — Consistency
@@ -551,7 +571,7 @@ function RoadmapPage() {
         {/* Phase 3 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/30">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-700 rounded-full" />
-          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+          <div className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5 hover-lift">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <h3 className="text-2xl font-black text-white uppercase italic">
                 Phase 3 — Visibility
@@ -573,7 +593,7 @@ function RoadmapPage() {
         {/* Phase 4 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/10">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
-          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5">
+          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5 hover-lift">
             <h3 className="text-2xl font-black text-white uppercase italic mb-4 opacity-70">
               Phase 4 — Participation
             </h3>
@@ -588,7 +608,7 @@ function RoadmapPage() {
         {/* Phase 5 */}
         <div className="relative pl-8 border-l-2 border-yellow-500/10">
           <div className="absolute -left-[11px] top-0 w-5 h-5 bg-zinc-800 rounded-full" />
-          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5">
+          <div className="bg-zinc-900/20 p-6 rounded-2xl border border-white/5 hover-lift">
             <h3 className="text-2xl font-black text-white uppercase italic mb-4 opacity-70">
               Phase 5 — Sustainability
             </h3>
@@ -611,7 +631,7 @@ function RoadmapPage() {
         ].map((m, i) => (
           <div
             key={i}
-            className="bg-zinc-900 p-4 rounded-xl border border-white/5 text-center"
+            className="bg-zinc-900 p-4 rounded-xl border border-white/5 text-center hover:border-yellow-500/50 transition-colors"
           >
             <div className="text-yellow-500 font-black text-xs uppercase mb-1">
               {m.label}
