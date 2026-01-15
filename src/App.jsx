@@ -400,39 +400,90 @@ function StoryPage() {
       <h1 className="text-6xl md:text-8xl font-black italic text-yellow-500 uppercase mb-12 leading-none">
         Our Story
       </h1>
+
       <div className="space-y-20">
+        {/* The Origin */}
         <div className="border-l-4 border-yellow-500 pl-8">
-          <h2 className="text-3xl font-black uppercase mb-4 text-white">
+          <h2 className="text-3xl font-black uppercase mb-4 text-white italic">
             The Phoenix Moment
           </h2>
+          <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+            $W didn't start in a boardroom—it started in the trenches. Launched
+            on September 19th, 2024, the project faced its first major test when
+            the original developer walked away. Instead of letting the fire go
+            out, the community chose to take the wheel.
+          </p>
           <p className="text-zinc-400 text-lg leading-relaxed">
-            $W didn't start in a boardroom—it started in the trenches. After the
-            original developer abandoned the project, the community chose to
-            take the wheel. Today, $W is a 100% Community-Taken-Over (CTO)
-            project.
+            Today, $W is a 100% Community-Taken-Over (CTO) project. We proved
+            that when a community is united by a common goal, the "dev" becomes
+            irrelevant—the people are the power.
           </p>
         </div>
+
+        {/* The Mission Grid */}
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
             <Heart className="text-yellow-500 mb-4" size={32} />
             <h2 className="text-2xl font-black uppercase mb-4 text-white">
-              Transparency First
+              The Mission: Giving Back
             </h2>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              On-chain and community verified. Every major decision is
-              transparent.
+              We aren't just here for the charts. We fund real-world good. With
+              over $2,500 already donated to animal welfare and small creators,
+              we are proving that memecoins can be a vehicle for positive
+              change.
             </p>
           </div>
           <div className="bg-zinc-900/50 p-10 rounded-[3rem] border border-white/5">
             <Users className="text-yellow-500 mb-4" size={32} />
             <h2 className="text-2xl font-black uppercase mb-4 text-white">
-              Real Impact
+              100% Organic
             </h2>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              We fund real-world good—from supporting small creators to animal
-              welfare.
+              No paid callers, no fake hype. Our growth has been earned through
+              110+ days of consecutive activity. Every holder is here because
+              they believe in the message: Everybody Wins.
             </p>
           </div>
+        </div>
+
+        {/* Core Values */}
+        <div className="bg-yellow-500 p-12 rounded-[3rem] text-black">
+          <h2 className="text-4xl font-black uppercase italic mb-6">Our DNA</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <div className="text-2xl font-black mb-2 uppercase">
+                Transparency
+              </div>
+              <p className="text-black/70 text-sm font-bold">
+                Every wallet is tracked, every donation is verified on-chain.
+              </p>
+            </div>
+            <div>
+              <div className="text-2xl font-black mb-2 uppercase">
+                Resilience
+              </div>
+              <p className="text-black/70 text-sm font-bold">
+                Surviving the trenches and building through every market
+                condition.
+              </p>
+            </div>
+            <div>
+              <div className="text-2xl font-black mb-2 uppercase">
+                Community
+              </div>
+              <div className="text-black/70 text-sm font-bold">
+                The team is whoever shows up and works. No hierarchy, just
+                winners.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center py-10">
+          <p className="text-zinc-500 italic font-medium">
+            "We aren't building a moment, we're building a movement."
+          </p>
         </div>
       </div>
     </div>
