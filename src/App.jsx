@@ -243,6 +243,24 @@ export default function App() {
 // --- PAGE COMPONENTS ---
 
 function HomePage({ navigate, copy, copied, CA }) {
+  const [uptime, setUptime] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+
+  useEffect(() => {
+    const startDate = new Date("2024-09-19T00:00:00Z");
+    const calculate = () => {
+      const now = new Date();
+      const diff = now - startDate;
+      setUptime({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        mins: Math.floor((diff / 1000 / 60) % 60),
+        secs: Math.floor((diff / 1000) % 60),
+      });
+    };
+    calculate();
+    const interval = setInterval(calculate, 1000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div>
       {/* HERO SECTION */}
@@ -336,18 +354,23 @@ function HomePage({ navigate, copy, copied, CA }) {
             Key Milestones 🏆
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
+            {/* LIVE TIMER CARD */}
             <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-yellow-500 shadow-xl hover-lift">
-              <div className="text-4xl font-black mb-2">110+</div>
-              <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold font-mono italic">
-                Consecutive Days Active
+              <div className="text-3xl md:text-3xl font-black mb-2 font-mono tabular-nums text-yellow-500">
+                {uptime.days}d {uptime.hours}h {uptime.mins}m {uptime.secs}s
+              </div>
+              <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold italic">
+                Consecutive Uptime
               </div>
             </div>
+
             <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-green-500 shadow-xl hover-lift">
               <div className="text-4xl font-black mb-2">$2,500+</div>
               <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
                 Donated to Real Causes
               </div>
             </div>
+
             <div className="bg-zinc-900 p-10 rounded-[2.5rem] border-b-4 border-blue-500 shadow-xl hover-lift">
               <div className="text-4xl font-black mb-2">6/6</div>
               <div className="text-zinc-500 uppercase text-xs tracking-widest font-bold">
@@ -427,6 +450,43 @@ function HomePage({ navigate, copy, copied, CA }) {
           </div>
         </div>
       </section>
+
+      {/* TEAM SECTION */}
+      <section className="py-20 bg-zinc-950 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black italic uppercase mb-16 tracking-tighter text-yellow-500">
+            The Core Team
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {[
+              { name: "@CryptoStki", link: "https://x.com/CryptoStki" },
+              { name: "@CryptoAndyMac", link: "https://x.com/CryptoAndyMac" },
+              { name: "@Magna_Facta", link: "https://x.com/Magna_Facta" },
+            ].map((member, i) => (
+              <a
+                key={i}
+                href={member.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-zinc-900/50 border border-white/5 p-8 rounded-[2.5rem] hover:border-yellow-500/50 transition-all hover-lift flex flex-col items-center"
+              >
+                <div className="w-20 h-20 bg-zinc-800 rounded-full mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                  <Twitter className="text-yellow-500" size={32} />
+                </div>
+                <h3 className="text-xl font-black text-white group-hover:text-yellow-500 transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-zinc-500 text-xs font-bold uppercase mt-2 tracking-widest">
+                  Core Contributor
+                </p>
+                <div className="mt-6 flex items-center gap-2 text-yellow-500/50 group-hover:text-yellow-500 text-xs font-black uppercase italic">
+                  View Profile <ExternalLink size={12} />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -445,7 +505,7 @@ function StoryPage() {
           </h2>
           <p className="text-zinc-400 text-lg leading-relaxed mb-6">
             $W didn't start in a boardroom—it started in the trenches. Launched
-            on September 19th, 2024, the project faced its first major test when
+            on September 19th, 2025, the project faced its first major test when
             the original developer walked away. Instead of letting the fire go
             out, the community chose to take the wheel.
           </p>
